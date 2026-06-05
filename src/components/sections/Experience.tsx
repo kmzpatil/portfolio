@@ -16,7 +16,7 @@ export default function Experience() {
         >
           <p className="text-subheading mb-3">Experience</p>
           <h2 className="text-heading text-[var(--text-primary)] mb-10">
-            Where I&apos;ve worked & built systems
+            Where I&apos;ve worked
           </h2>
         </motion.div>
 
