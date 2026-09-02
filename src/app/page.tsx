@@ -7,6 +7,7 @@ import Projects from "@/components/sections/Projects";
 import Playground from "@/components/sections/Playground";
 import Skills from "@/components/sections/Skills";
 import Achievements from "@/components/sections/Achievements";
+import Contact from "@/components/sections/Contact";
 import { projects } from "@/lib/data";
 
 export default function Home() {
@@ -22,6 +23,7 @@ export default function Home() {
         <Playground />
         <Skills />
         <Achievements />
+        <Contact />
       </main>
     </>
   );
