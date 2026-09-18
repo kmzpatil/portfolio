@@ -9,22 +9,29 @@ import Skills from "@/components/sections/Skills";
 import Achievements from "@/components/sections/Achievements";
 import Contact from "@/components/sections/Contact";
 import { projects } from "@/lib/data";
+import SmoothScroll from "@/components/SmoothScroll";
+import SectionScroller from "@/components/SectionScroller";
+import CtfConsoleEasterEgg from "@/components/CtfConsoleEasterEgg";
 
 export default function Home() {
   return (
     <>
+      <CtfConsoleEasterEgg />
       <ParticleField />
       <NavBar />
-      <main>
-        <Hero />
-        <About />
-        <Experience />
-        <Projects projects={projects} />
-        <Playground />
-        <Skills />
-        <Achievements />
-        <Contact />
-      </main>
+      <SectionScroller />
+      <SmoothScroll>
+        <main>
+          <Hero />
+          <About />
+          <Experience />
+          <Projects projects={projects} />
+          <Playground />
+          <Skills />
+          <Achievements />
+          <Contact />
+        </main>
+      </SmoothScroll>
     </>
   );
 }
