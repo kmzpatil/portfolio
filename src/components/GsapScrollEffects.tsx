@@ -20,31 +20,17 @@ export default function GsapScrollEffects() {
   const warpPulseRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    const cards = gsap.utils.toArray<HTMLElement>('.glow-card, .stat-card');
-    
-    // Hardware acceleration for cards
-    cards.forEach((card) => {
-      card.style.willChange = 'transform';
-      gsap.set(card, { transformOrigin: 'center center', force3D: true });
-    });
-
-    const skewSetter = gsap.quickSetter(cards, 'skewY', 'deg');
-    const clamp = gsap.utils.clamp(-3.5, 3.5);
-
     let scrollEndTimer: NodeJS.Timeout | null = null;
     let isCurrentlyWarp = false;
 
-    // High performance ScrollTrigger with zero React state overhead
+    // High performance ScrollTrigger for telemetry HUD and laser scrubs
     const mainTrigger = ScrollTrigger.create({
       onUpdate: (self) => {
         const vel = self.getVelocity();
-        const clampedSkew = clamp(vel / -450);
-        skewSetter(clampedSkew);
-        
         const absVel = Math.abs(Math.round(vel));
         const progress = Math.round(self.progress * 100);
 
-        // Update DOM directly without React re-render lag
+        // Update HUD DOM directly without React re-render lag
         if (velValRef.current) {
           velValRef.current.innerText = `${absVel} `;
         }
@@ -68,15 +54,8 @@ export default function GsapScrollEffects() {
           }
         }
 
-        // Debounce spring back to 0 so we don't spam GSAP tweens on every frame
         if (scrollEndTimer) clearTimeout(scrollEndTimer);
         scrollEndTimer = setTimeout(() => {
-          gsap.to(cards, {
-            skewY: 0,
-            duration: 0.5,
-            ease: 'power3.out',
-            overwrite: 'auto',
-          });
           if (velValRef.current) velValRef.current.innerText = '0 ';
           if (velBarRef.current) velBarRef.current.style.width = '0%';
           if (statusValRef.current) {
