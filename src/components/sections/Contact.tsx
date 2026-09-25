@@ -72,7 +72,109 @@ export default function Contact() {
       return;
     }
 
-    if (lowerText === 'sudo' || lowerText === 'sudo root' || lowerText === 'bypass') {
+    if (lowerText === 'projects' || lowerText === 'repos' || lowerText === 'ls' || lowerText === 'ls projects') {
+      setMessages(prev => [
+        ...newMessages,
+        {
+          id: (Date.now() + 1).toString(),
+          sender: 'system',
+          text: `CORE SYSTEMS & PRODUCTION REPOSITORIES:\n\n[01] C++ ORDER BOOK MATCHING ENGINE\n     - Sub-microsecond deterministic L3 engine (-40% p99 latency)\n     - Lock-free SPSC queues, cache-aligned order book ladder\n     - Tech: C++20, POSIX Pthreads, Google Benchmark\n     - GitHub: https://github.com/kmzpatil/OrderBook-Engine\n\n[02] RECURSIVE KALMAN STAT-ARB ENGINE\n     - Nifty 50 cointegrated pairs trading with rolling Z-score\n     - 73.8% out-of-sample directional accuracy, zero lookahead\n     - Tech: Python, NumPy, Numba JIT, Statsmodels, FastAPI\n     - GitHub: https://github.com/kmzpatil/Pairtrading\n\n[03] RADIX TRIE WITH TOP-K NODE CACHING\n     - <1ms sub-millisecond lookup across 1.2M+ key dictionary\n     - Stress tested across 10M+ concurrent queries\n     - Tech: C++, STL, Custom Trie Allocator\n\n[04] DEFI ARBITRAGE BOT & DEX MONITOR\n     - Real-time Uniswap V3 cross-pool triangular arbitrage\n     - 95%+ net PnL accuracy accounting for dynamic gas & slippage\n     - Tech: Python, Web3.py, FastAPI, WebSockets\n     - GitHub: https://github.com/kmzpatil/DeFi-Arbitrage-Bot`
+        }
+      ]);
+      setIsProcessing(false);
+      return;
+    }
+
+    if (lowerText === 'whoami') {
+      setMessages(prev => [
+        ...newMessages,
+        {
+          id: (Date.now() + 1).toString(),
+          sender: 'system',
+          text: `kartik@hft-box (IIT Kharagpur ECE // Incoming SDE Intern @ Walmart Global Tech)`
+        }
+      ]);
+      setIsProcessing(false);
+      return;
+    }
+
+    if (lowerText === 'pwd') {
+      setMessages(prev => [
+        ...newMessages,
+        {
+          id: (Date.now() + 1).toString(),
+          sender: 'system',
+          text: `/home/kartik/portfolio-app/src/systems`
+        }
+      ]);
+      setIsProcessing(false);
+      return;
+    }
+
+    if (lowerText.startsWith('uname')) {
+      setMessages(prev => [
+        ...newMessages,
+        {
+          id: (Date.now() + 1).toString(),
+          sender: 'system',
+          text: `Linux hft-node-01 6.8.0-lowlatency #42-Ubuntu SMP PREEMPT_DYNAMIC x86_64 GNU/Linux`
+        }
+      ]);
+      setIsProcessing(false);
+      return;
+    }
+
+    if (lowerText.startsWith('cat')) {
+      if (lowerText.includes('flag') || lowerText.includes('shadow')) {
+        setMessages(prev => [
+          ...newMessages,
+          {
+            id: (Date.now() + 1).toString(),
+            sender: 'system',
+            text: `cat: Permission denied. Privilege escalation required. Try 'sudo root'.`
+          }
+        ]);
+      } else {
+        setMessages(prev => [
+          ...newMessages,
+          {
+            id: (Date.now() + 1).toString(),
+            sender: 'system',
+            text: `// Kartik Patil Portfolio v2.4 (Production Ready)\n// Specialization: Low-Latency C++20 Systems, Quantitative Finance & Distributed Networks.`
+          }
+        ]);
+      }
+      setIsProcessing(false);
+      return;
+    }
+
+    if (lowerText === 'top' || lowerText === 'htop') {
+      setMessages(prev => [
+        ...newMessages,
+        {
+          id: (Date.now() + 1).toString(),
+          sender: 'system',
+          text: `PID  USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND\n  1  root      20   0   12.4M   4.1M   2.8M S   0.0   0.0   0:01.12 init\n402  kartik   -51   0  512.0M  98.4M  32.0M R  99.8   1.2   4:21.08 orderbook_engine\n405  kartik    20   0  256.0M  64.2M  24.1M S   2.4   0.8   1:12.44 kalman_stat_arb\n410  kartik    20   0  128.0M  32.1M  16.0M S   0.8   0.4   0:45.19 defi_arb_monitor`
+        }
+      ]);
+      setIsProcessing(false);
+      return;
+    }
+
+    if (lowerText === 'history') {
+      setMessages(prev => [
+        ...newMessages,
+        {
+          id: (Date.now() + 1).toString(),
+          sender: 'system',
+          text: `1  git clone https://github.com/kmzpatil/OrderBook-Engine.git\n2  cmake -B build -DCMAKE_BUILD_TYPE=Release\n3  cmake --build build -j8 && ./build/benchmarks\n4  python3 -m stat_arb.kalman_filter --backtest\n5  ctf\n6  sudo root`
+        }
+      ]);
+      setIsProcessing(false);
+      return;
+    }
+
+    if (lowerText.startsWith('sudo') || lowerText === 'root' || lowerText === 'su' || lowerText === 'bypass') {
       setMessages(prev => [
         ...newMessages,
         {
@@ -85,7 +187,7 @@ export default function Contact() {
       return;
     }
 
-    if (lowerText === 'stats') {
+    if (lowerText === 'stats' || lowerText === 'metrics') {
       setMessages(prev => [
         ...newMessages,
         {
