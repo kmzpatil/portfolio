@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { askKOSDaemon } from '@/lib/inference';
 
 type Message = {
   id: string;
@@ -204,31 +205,16 @@ export default function Contact() {
     setMessages([...newMessages, { id: typingId, sender: 'system', text: '...', isTyping: true }]);
 
     try {
-      const res = await fetch('/api/chat', { signal: AbortSignal.timeout(12000),
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          messages: [{ role: 'user', content: userText }] 
-        }),
-      });
-      
-      if (!res.ok) {
-        const errData = await res.json().catch(() => ({}));
-        throw new Error(errData.error || `HTTP ${res.status}`);
-      }
-
-      const data = await res.json();
-      const reply = data.choices?.[0]?.message?.content?.trim();
-      
+      const reply = await askKOSDaemon(userText);
       setMessages(prev => prev.map(m => 
         m.id === typingId 
           ? { ...m, text: reply || 'System ready. No output returned.', isTyping: false }
           : m
       ));
-    } catch (error: any) {
+    } catch {
       setMessages(prev => prev.map(m => 
         m.id === typingId 
-          ? { ...m, text: `ERR_AGENT_OFFLINE: ${error?.message || 'Connection timed out'}. You can email me directly at kmzpatil@gmail.com`, isTyping: false }
+          ? { ...m, text: `[K-OS RECOVERY]: Telemetry socket active. You can reach Kartik directly at kmzpatil@gmail.com or explore available commands via 'help'.`, isTyping: false }
           : m
       ));
     } finally {
