@@ -140,7 +140,7 @@ export const experience: Experience[] = [
     role: "Software Engineering Intern (SDE)",
     period: "May 2027 — Jul 2027",
     bullets: [
-      "Software Engineering Intern at one of the world's largest technology organizations, working on large-scale distributed systems.",
+      "Incoming Software Engineering Intern at one of the world's largest enterprise retail technology divisions, focusing on high-scale distributed backend infrastructure.",
     ],
   },
   {
@@ -148,8 +148,27 @@ export const experience: Experience[] = [
     role: "Software Developer Intern",
     period: "Mar 2025 — May 2025",
     bullets: [
-      "Engineered high-performance backend with MFA and JWT authentication for a trucking and investment platform.",
-      "Created real-time financial analytics dashboards for operational fleet and investment monitoring.",
+      "Engineered high-performance backend microservices with multi-factor authentication (MFA) and stateless JWT role authorization for freight logistics & investment operations.",
+      "Developed real-time financial telemetry dashboards streaming fleet metrics, revenue yield, and transaction throughput via WebSockets.",
+    ],
+  },
+  {
+    company: "Communiqué, IIT Kharagpur (TSG)",
+    role: "Governor & Software Team Lead",
+    period: "Apr 2026 — Present",
+    bullets: [
+      "Facilitated career development drives for 500+ students, leading CV review clinics and technical interview bootcamps.",
+      "Directed the Software Team of 40+ members across digital platforms, automated candidate allocation pipelines, and outreach initiatives.",
+      "Orchestrated Secretariat operations for the World Bank Committee at Global Model United Nations (GMUN 2026); architected the official conference portal serving 300+ international delegates.",
+    ],
+  },
+  {
+    company: "Kharagpur Data Analytics Group (KDAG)",
+    role: "Associate Member",
+    period: "Mar 2024 — Sep 2025",
+    bullets: [
+      "Clinched 1st Runner-Up in the intra-society ML hackathon by engineering an end-to-end predictive cancer classification model.",
+      "Co-authored high-yield tutorials and mathematical breakdowns for the widely circulated KDAG ML Sheets.",
     ],
   },
 ];
@@ -157,23 +176,23 @@ export const experience: Experience[] = [
 export const achievements: Achievement[] = [
   {
     title: "IMC Prosperity 4",
-    stat: "529",
+    stat: "Rank 529",
     detail: "Global Rank / Country Rank 81",
   },
   {
     title: "Codeforces",
     stat: "1620",
-    detail: "Expert Rating",
+    detail: "Expert Rank (Handle: kresol)",
+  },
+  {
+    title: "Data Analytics GC",
+    stat: "Gold Medal",
+    detail: "Rank 1 representing RK Hall (IIT KGP)",
   },
   {
     title: "AMS Derive 2026",
-    stat: "198",
-    detail: "Rank among 2,500+ globally",
-  },
-  {
-    title: "Goldman Sachs Hackathon",
-    stat: "447",
-    detail: "Quant Track / 584 CS Track",
+    stat: "Rank 198",
+    detail: "Top 2,500+ (Jane Street & QRT)",
   },
 ];
 

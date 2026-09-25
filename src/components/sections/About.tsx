@@ -6,7 +6,7 @@ const stats = [
   { value: "IIT KGP", label: "B.Tech ECE (Hons.) '28" },
   { value: "1620", label: "Codeforces Expert" },
   { value: "529", label: "IMC Prosperity Global" },
-  { value: "8+", label: "Production Projects" },
+  { value: "Gold", label: "Data Analytics GC (IIT KGP)" },
 ];
 
 export default function About() {
