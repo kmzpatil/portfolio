@@ -545,46 +545,46 @@ export default function Playground() {
         <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-xl bg-white/[0.03] border border-white/[0.08] mb-6 w-fit">
           <button
             onClick={() => setActiveTab('orderbook')}
-            className={`px-4 py-2 rounded-lg text-xs font-mono font-semibold transition-all ${
+            className={`px-4 py-2 rounded-lg text-xs font-mono font-semibold transition-all active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] ${
               activeTab === 'orderbook'
                 ? 'bg-[var(--accent)] text-white shadow-[0_0_15px_rgba(59,130,246,0.35)]'
                 : 'text-[var(--text-secondary)] hover:text-white hover:bg-white/[0.05]'
             }`}
           >
-            ⚡ Order Book Matching Engine
+            Order Book Matching Engine
           </button>
 
           <button
             onClick={() => setActiveTab('scraper')}
-            className={`px-4 py-2 rounded-lg text-xs font-mono font-semibold transition-all ${
+            className={`px-4 py-2 rounded-lg text-xs font-mono font-semibold transition-all active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] ${
               activeTab === 'scraper'
                 ? 'bg-[var(--accent)] text-white shadow-[0_0_15px_rgba(59,130,246,0.35)]'
                 : 'text-[var(--text-secondary)] hover:text-white hover:bg-white/[0.05]'
             }`}
           >
-            🕸️ High-Throughput Scraper Simulator
+            High-Throughput Scraper Simulator
           </button>
 
           <button
             onClick={() => setActiveTab('llm')}
-            className={`px-4 py-2 rounded-lg text-xs font-mono font-semibold transition-all ${
+            className={`px-4 py-2 rounded-lg text-xs font-mono font-semibold transition-all active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] ${
               activeTab === 'llm'
                 ? 'bg-[var(--accent)] text-white shadow-[0_0_15px_rgba(59,130,246,0.35)]'
                 : 'text-[var(--text-secondary)] hover:text-white hover:bg-white/[0.05]'
             }`}
           >
-            🧠 Quant &amp; Systems LLM Sandbox
+            Quant &amp; Systems LLM Sandbox
           </button>
 
           <button
             onClick={() => setActiveTab('ctf')}
-            className={`px-4 py-2 rounded-lg text-xs font-mono font-semibold transition-all ${
+            className={`px-4 py-2 rounded-lg text-xs font-mono font-semibold transition-all active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 ${
               activeTab === 'ctf'
                 ? 'bg-amber-500 text-black font-bold shadow-[0_0_15px_rgba(245,158,11,0.4)]'
                 : 'text-[var(--text-secondary)] hover:text-amber-400 hover:bg-white/[0.05]'
             }`}
           >
-            🚩 CTF &amp; Packet Chaser
+            Capture The Flag (CTF)
           </button>
         </div>
 
@@ -762,13 +762,13 @@ export default function Playground() {
                   <div className="grid grid-cols-2 gap-3 pt-1">
                     <button 
                       onClick={() => executeOrder('buy', orderSize, orderPrice)}
-                      className="py-2.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 font-bold transition-all active:scale-[0.98] shadow-[0_0_15px_rgba(16,185,129,0.1)]"
+                      className="py-2.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 font-bold transition-all active:scale-[0.98] shadow-[0_0_15px_rgba(16,185,129,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
                     >
                       BUY / BID
                     </button>
                     <button 
                       onClick={() => executeOrder('sell', orderSize, orderPrice)}
-                      className="py-2.5 rounded-lg bg-red-500/10 text-red-400 border border-red-500/30 hover:bg-red-500/20 font-bold transition-all active:scale-[0.98] shadow-[0_0_15px_rgba(239,68,68,0.1)]"
+                      className="py-2.5 rounded-lg bg-red-500/10 text-red-400 border border-red-500/30 hover:bg-red-500/20 font-bold transition-all active:scale-[0.98] shadow-[0_0_15px_rgba(239,68,68,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
                     >
                       SELL / ASK
                     </button>
@@ -1003,13 +1003,19 @@ export default function Playground() {
                   )}
                 </div>
 
-                <div className="text-xs sm:text-[13px] text-[var(--text-secondary)] leading-relaxed whitespace-pre-wrap">
+                <div className="text-xs sm:text-[13px] text-[var(--text-secondary)] leading-relaxed">
                   {llmLoading ? (
                     <div className="flex items-center gap-2 text-[var(--accent)] animate-pulse">
                       <span>Computing tokens...</span>
                     </div>
                   ) : llmResponse ? (
-                    llmResponse
+                    <div className="space-y-2">
+                      {llmResponse.split('\n\n').map((paragraph, pIdx) => (
+                        <p key={pIdx} className="leading-relaxed">
+                          {paragraph}
+                        </p>
+                      ))}
+                    </div>
                   ) : (
                     <span className="text-[var(--text-tertiary)]">
                       Select one of the benchmark queries above or enter a custom question to inspect response output.

@@ -1,0 +1,35 @@
+# Kartik Patil — Systems & Quantitative Software Engineer
+
+> High-Performance Systems Engineer & Quantitative Developer. IIT Kharagpur graduate specializing in low-latency C++20 systems, order matching engines, automated statistical arbitrage, and distributed architectures.
+
+## Core Coordinates & Links
+- Website: https://kmzpatil.github.io
+- GitHub: https://github.com/kmzpatil
+- LinkedIn: https://linkedin.com/in/kmzpatil
+- Codeforces: https://codeforces.com/profile/kresol (Rating: 1620, Expert)
+- Email: kmzpatil@gmail.com
+
+## Professional Background & Experience
+- **Walmart Global Tech** — Incoming Software Development Engineer Intern (May 2025). Selected through campus placement at IIT Kharagpur.
+- **IMC Prosperity 4** — Global Rank 529 out of 10,000+ international algorithmic trading teams. Built multi-asset market making and ETF statistical arbitrage algorithms in Python.
+- **Education**: B.Tech + M.Tech Dual Degree in Ocean Engineering & Naval Architecture, Minor in Computer Science & Engineering, Indian Institute of Technology Kharagpur (2021–2026).
+
+## Key Systems Projects
+1. **Low-Latency C++20 Order Matching Engine**:
+   - Sub-microsecond price-time priority (FIFO) matching engine.
+   - Cache-aligned order book levels, lock-free ring buffers, and zero dynamic memory allocations in critical path.
+   - P99 order execution latency of 420ns with 2.8M operations/second throughput.
+
+2. **Statistical Arbitrage & Kalman Filtering Engine**:
+   - Automated pairs trading system using recursive Kalman filter for real-time dynamic beta hedge calculation.
+   - Backtested across Nifty 50 and S&P 500 equity pairs with 73.8% walk-forward accuracy.
+
+3. **High-Throughput Radix Trie Routing Engine**:
+   - Prefix matching trie optimized for routing tables and IP lookup.
+   - Lookup time < 1ms for 1.2M keys using SIMD bitwise parallel evaluation.
+
+## Technical Skills
+- **Languages**: C++20, C, Python, Go, TypeScript, SQL, Assembly (x86_64 basics).
+- **Systems & Architecture**: Linux Kernel tuning, POSIX threads, Lock-Free Concurrency, SIMD (AVX2/AVX-512), Memory Mapped I/O, IPC (Shared Memory, Unix Domain Sockets).
+- **Quant & ML**: NumPy, Pandas, Scipy, Kalman Filters, Time Series Econometrics, Backtrader, PyTorch.
+- **Web & Cloud**: Next.js, React, Node.js, WebSockets, Three.js, Docker, Git.

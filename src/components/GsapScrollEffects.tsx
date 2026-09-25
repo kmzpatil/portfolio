@@ -50,7 +50,7 @@ export default function GsapScrollEffects() {
             statusValRef.current.className = `text-[10px] ${isWarp ? 'text-amber-400 font-bold' : 'text-emerald-400'}`;
           }
           if (warpPulseRef.current) {
-            warpPulseRef.current.className = `w-2 h-2 rounded-full ${isWarp ? 'bg-amber-400 animate-ping' : 'bg-blue-500 animate-pulse'}`;
+            warpPulseRef.current.className = `w-2 h-2 rounded-full transition-colors duration-150 ${isWarp ? 'bg-amber-400 ring-2 ring-amber-400/50' : 'bg-blue-500'}`;
           }
         }
 
@@ -63,7 +63,7 @@ export default function GsapScrollEffects() {
             statusValRef.current.className = 'text-[10px] text-emerald-400';
           }
           if (warpPulseRef.current) {
-            warpPulseRef.current.className = 'w-2 h-2 rounded-full bg-blue-500 animate-pulse';
+            warpPulseRef.current.className = 'w-2 h-2 rounded-full bg-blue-500 transition-colors duration-150';
           }
           isCurrentlyWarp = false;
         }, 120);
@@ -130,11 +130,11 @@ export default function GsapScrollEffects() {
 
   return (
     <div className="fixed bottom-5 left-5 z-40 select-none hidden md:block">
-      <div className="bg-[#0A0A0F]/85 backdrop-blur-xl border border-white/[0.08] shadow-[0_10px_35px_rgba(0,0,0,0.7)] rounded-xl overflow-hidden transition-all duration-300">
+      <div className="bg-black/80 backdrop-blur-xl border border-white/[0.08] shadow-[0_10px_35px_rgba(0,0,0,0.7)] rounded-xl overflow-hidden transition-all duration-300">
         {/* HUD Top Bar */}
         <div className="px-3.5 py-1.5 bg-white/[0.03] border-b border-white/[0.06] flex items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <span ref={warpPulseRef} className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+            <span ref={warpPulseRef} className="w-2 h-2 rounded-full bg-blue-500" />
             <span className="text-[10px] font-mono tracking-widest text-[var(--text-secondary)] font-semibold">
               K-TELEMETRY // {activeSector}
             </span>

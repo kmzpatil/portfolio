@@ -57,7 +57,7 @@ export default function NavBar() {
           <li>
             <a
               href="#contact"
-              className="text-[13px] px-4 py-2 rounded-md bg-[var(--accent)] text-white hover:bg-blue-600 transition-colors duration-200 font-medium"
+              className="text-[13px] px-4 py-2 rounded-md bg-[var(--accent)] text-white hover:bg-blue-600 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-white transition-all duration-150 font-medium"
             >
               Contact
             </a>
@@ -67,8 +67,9 @@ export default function NavBar() {
         {/* Mobile hamburger */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden flex flex-col gap-1.5 p-2"
+          className="md:hidden flex flex-col items-center justify-center gap-1.5 min-w-[44px] min-h-[44px] p-2 rounded-lg hover:bg-white/[0.04] active:scale-95 transition-all focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
           aria-label="Toggle navigation menu"
+          aria-expanded={mobileOpen}
         >
           <span className={`block w-5 h-px bg-[var(--text-secondary)] transition-transform duration-200 ${mobileOpen ? 'rotate-45 translate-y-[3.5px]' : ''}`} />
           <span className={`block w-5 h-px bg-[var(--text-secondary)] transition-opacity duration-200 ${mobileOpen ? 'opacity-0' : ''}`} />
@@ -86,13 +87,13 @@ export default function NavBar() {
             transition={{ duration: 0.2, ease: 'easeOut' }}
             className="md:hidden bg-[#0A0A0F]/95 backdrop-blur-xl border-b border-white/[0.06] overflow-hidden"
           >
-            <ul className="px-6 py-4 space-y-3">
+            <ul className="px-6 py-4 space-y-1">
               {sections.slice(1).map((s) => (
                 <li key={s.id}>
                   <a
                     href={`#${s.id}`}
                     onClick={() => setMobileOpen(false)}
-                    className="block text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors py-1"
+                    className="flex items-center min-h-[44px] text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors py-2"
                   >
                     {s.label}
                   </a>

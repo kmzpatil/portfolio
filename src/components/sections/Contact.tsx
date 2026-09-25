@@ -293,13 +293,29 @@ export default function Contact() {
                   <div className={`max-w-[88%] rounded px-3.5 py-2 ${
                     msg.sender === 'user' 
                       ? 'bg-[var(--accent)]/15 text-[var(--text-primary)] border border-[var(--accent)]/30' 
-                      : 'text-[var(--text-secondary)] whitespace-pre-wrap leading-relaxed'
+                      : 'text-[var(--text-secondary)] leading-relaxed'
                   }`}>
                     {msg.sender === 'system' && !msg.isTyping && <span className="text-[var(--accent)] mr-2">{'>'}</span>}
                     {msg.isTyping ? (
                       <span className="inline-block animate-pulse">_</span>
                     ) : (
-                      msg.text
+                      <div className="space-y-1.5">
+                        {msg.text.split('\n').map((line, lIdx) => {
+                          if (!line.trim()) return <div key={lIdx} className="h-1.5" />;
+                          if (line.startsWith('•') || line.startsWith('- ') || line.startsWith('* ')) {
+                            return (
+                              <div key={lIdx} className="flex items-start gap-2 pl-2">
+                                <span className="text-[var(--accent)] select-none">›</span>
+                                <span>{line.replace(/^[•\-*]\s*/, '')}</span>
+                              </div>
+                            );
+                          }
+                          if (line.startsWith('//')) {
+                            return <div key={lIdx} className="text-[var(--text-tertiary)] italic">{line}</div>;
+                          }
+                          return <div key={lIdx}>{line}</div>;
+                        })}
+                      </div>
                     )}
                   </div>
                 </div>

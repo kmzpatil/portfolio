@@ -2,7 +2,23 @@ import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
   try {
-    const { messages } = await req.json();
+    const body = await req.json();
+    const { messages } = body || {};
+
+    if (!Array.isArray(messages) || messages.length === 0) {
+      return NextResponse.json(
+        { error: 'Invalid or empty message payload.' },
+        { status: 400 }
+      );
+    }
+
+    const lastMsg = messages[messages.length - 1];
+    if (!lastMsg || typeof lastMsg.content !== 'string' || lastMsg.content.length > 2000) {
+      return NextResponse.json(
+        { error: 'Message payload exceeds limit of 2,000 characters.' },
+        { status: 400 }
+      );
+    }
 
     const apiKeys = (process.env.GROQ_API_KEYS || '')
       .split(',')
@@ -11,8 +27,8 @@ export async function POST(req: Request) {
 
     if (apiKeys.length === 0) {
       return NextResponse.json(
-        { error: 'Groq API key is not configured.' },
-        { status: 500 }
+        { error: 'Inference service temporarily unavailable.' },
+        { status: 503 }
       );
     }
     const apiKey = apiKeys[Math.floor(Math.random() * apiKeys.length)];
@@ -79,7 +95,7 @@ ${resumeContext}`
     }
 
     return NextResponse.json(
-      { error: 'Inference engines currently saturated. Please try again.', details: String(lastError) },
+      { error: 'Inference engines currently saturated. Please try again in a moment.' },
       { status: 502 }
     );
   } catch (error) {

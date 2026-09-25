@@ -69,7 +69,7 @@ export default function Hero() {
               <Magnetic>
                 <button
                   onClick={() => scrollTo('playground')}
-                  className="px-6 py-3 rounded-lg bg-[var(--accent)] hover:bg-[var(--accent)]/90 text-white font-mono text-xs sm:text-sm font-semibold tracking-wide transition-all shadow-[0_0_25px_rgba(59,130,246,0.35)] active:scale-[0.98]"
+                  className="px-6 py-3 rounded-lg bg-[var(--accent)] hover:bg-[var(--accent)]/90 text-white font-mono text-xs sm:text-sm font-semibold tracking-wide transition-all shadow-[0_0_25px_rgba(59,130,246,0.35)] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#05050A]"
                 >
                   Launch Live Playground →
                 </button>
@@ -78,7 +78,7 @@ export default function Hero() {
               <Magnetic>
                 <button
                   onClick={() => scrollTo('projects')}
-                  className="px-6 py-3 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] text-[var(--text-primary)] border border-white/[0.1] font-mono text-xs sm:text-sm font-semibold tracking-wide transition-all active:scale-[0.98]"
+                  className="px-6 py-3 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] text-[var(--text-primary)] border border-white/[0.1] font-mono text-xs sm:text-sm font-semibold tracking-wide transition-all active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[#05050A]"
                 >
                   View Systems &amp; Code
                 </button>
