@@ -5,17 +5,17 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Points, PointMaterial } from '@react-three/drei';
 import * as THREE from 'three';
 
-function Optimized3DParticles({ count = 650 }: { count?: number }) {
+function Optimized3DParticles({ count = 1400 }: { count?: number }) {
   const pointsRef = useRef<THREE.Points>(null!);
   const { viewport } = useThree();
 
-  // Pre-generate static 3D particle positions once
+  // Pre-generate static 3D particle positions across full scroll height (Y span: 64)
   const positions = useMemo(() => {
     const pos = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 18;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 18;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 14;
+      pos[i * 3] = (Math.random() - 0.5) * 26; // X span: 26 (covers ultra-wide screens)
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 64; // Y span: 64 (full coverage from hero to contact bottom)
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 18; // Z span: 18 (cosmic depth)
     }
     return pos;
   }, [count]);
@@ -73,12 +73,12 @@ function Optimized3DParticles({ count = 650 }: { count?: number }) {
     <Points ref={pointsRef} positions={positions} stride={3} frustumCulled={false}>
       <PointMaterial
         transparent
-        color="#3B82F6"
-        size={0.032}
+        color="#60A5FA"
+        size={0.036}
         sizeAttenuation={true}
         depthWrite={false}
         blending={THREE.AdditiveBlending}
-        opacity={0.7}
+        opacity={0.8}
       />
     </Points>
   );
@@ -98,7 +98,7 @@ export default function ParticleField() {
         }}
         style={{ background: '#0A0A0F' }}
       >
-        <Optimized3DParticles count={650} />
+        <Optimized3DParticles count={1400} />
       </Canvas>
     </div>
   );
