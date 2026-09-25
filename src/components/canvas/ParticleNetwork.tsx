@@ -1,145 +1,105 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useRef, useMemo, useEffect } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Points, PointMaterial } from '@react-three/drei';
+import * as THREE from 'three';
 
-interface Particle {
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  radius: number;
-  alpha: number;
-}
+function Optimized3DParticles({ count = 650 }: { count?: number }) {
+  const pointsRef = useRef<THREE.Points>(null!);
+  const { viewport } = useThree();
 
-export default function ParticleField() {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  // Pre-generate static 3D particle positions once
+  const positions = useMemo(() => {
+    const pos = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      pos[i * 3] = (Math.random() - 0.5) * 18;
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 18;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 14;
+    }
+    return pos;
+  }, [count]);
+
+  const mouseRef = useRef({ x: 0, y: 0 });
+  const scrollOffsetRef = useRef(0);
+  const targetScrollRef = useRef(0);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d', { alpha: true });
-    if (!ctx) return;
-
-    let animationFrameId: number;
-    let width = (canvas.width = window.innerWidth);
-    let height = (canvas.height = window.innerHeight);
-
-    // Responsive particle count (45 on mobile, 75 on desktop for optimal 120fps)
-    const particleCount = width < 768 ? 40 : 75;
-    const particles: Particle[] = [];
-
-    for (let i = 0; i < particleCount; i++) {
-      particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.45,
-        vy: (Math.random() - 0.5) * 0.45,
-        radius: Math.random() * 1.6 + 0.8,
-        alpha: Math.random() * 0.5 + 0.2,
-      });
-    }
-
-    let mouseX = -1000;
-    let mouseY = -1000;
-    let scrollVelocity = 0;
-    let lastScrollY = window.scrollY;
+    let ticking = false;
 
     const handleMouseMove = (e: MouseEvent) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
+      mouseRef.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouseRef.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
     };
 
     const handleScroll = () => {
-      const currentY = window.scrollY;
-      const diff = currentY - lastScrollY;
-      lastScrollY = currentY;
-      scrollVelocity = Math.max(Math.min(diff * 0.15, 6), -6);
-    };
-
-    const handleResize = () => {
-      if (!canvas) return;
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          targetScrollRef.current = window.scrollY * 0.0015;
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleResize, { passive: true });
-
-    // Render loop
-    const render = () => {
-      // Clear with subtle trail
-      ctx.clearRect(0, 0, width, height);
-
-      // Dampen scroll velocity smoothly
-      scrollVelocity *= 0.94;
-
-      const connectionDistance = width < 768 ? 90 : 130;
-      const connectionDistSq = connectionDistance * connectionDistance;
-
-      // Update & Draw Particles
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-
-        // Move
-        p.x += p.vx;
-        p.y += p.vy - scrollVelocity * 0.6;
-
-        // Wrap boundaries
-        if (p.x < -10) p.x = width + 10;
-        if (p.x > width + 10) p.x = -10;
-        if (p.y < -10) p.y = height + 10;
-        if (p.y > height + 10) p.y = -10;
-
-        // Subtle mouse interaction (gentle attraction/deflection)
-        const dx = mouseX - p.x;
-        const dy = mouseY - p.y;
-        const distSq = dx * dx + dy * dy;
-        if (distSq < 15000) {
-          p.x -= dx * 0.008;
-          p.y -= dy * 0.008;
-        }
-
-        // Draw particle dot
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(59, 130, 246, ${p.alpha})`;
-        ctx.fill();
-
-        // Draw network connection lines between nearby particles
-        for (let j = i + 1; j < particles.length; j++) {
-          const p2 = particles[j];
-          const dist2 = (p.x - p2.x) * (p.x - p2.x) + (p.y - p2.y) * (p.y - p2.y);
-          if (dist2 < connectionDistSq) {
-            const lineAlpha = (1 - dist2 / connectionDistSq) * 0.16;
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(37, 99, 235, ${lineAlpha})`;
-            ctx.lineWidth = 0.8;
-            ctx.stroke();
-          }
-        }
-      }
-
-      animationFrameId = requestAnimationFrame(render);
-    };
-
-    animationFrameId = requestAnimationFrame(render);
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
+  useFrame((_, delta) => {
+    if (!pointsRef.current) return;
+
+    // Smooth continuous cosmic rotation (frame-rate independent)
+    pointsRef.current.rotation.y += delta * 0.035;
+    pointsRef.current.rotation.x += delta * 0.018;
+
+    // Smooth scroll interpolation
+    scrollOffsetRef.current += (targetScrollRef.current - scrollOffsetRef.current) * 0.08;
+    pointsRef.current.position.y = scrollOffsetRef.current;
+
+    // Subtle, gentle mouse parallax
+    const targetX = (mouseRef.current.x * viewport.width) / 30;
+    const targetZ = (mouseRef.current.y * viewport.height) / 30;
+    pointsRef.current.position.x += (targetX - pointsRef.current.position.x) * 0.05;
+    pointsRef.current.position.z += (targetZ - pointsRef.current.position.z) * 0.05;
+  });
+
   return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 pointer-events-none -z-10 bg-[#0A0A0F]"
-      aria-hidden="true"
-    />
+    <Points ref={pointsRef} positions={positions} stride={3} frustumCulled={false}>
+      <PointMaterial
+        transparent
+        color="#3B82F6"
+        size={0.032}
+        sizeAttenuation={true}
+        depthWrite={false}
+        blending={THREE.AdditiveBlending}
+        opacity={0.7}
+      />
+    </Points>
+  );
+}
+
+export default function ParticleField() {
+  return (
+    <div className="fixed inset-0 -z-10 pointer-events-none" aria-hidden="true">
+      <Canvas
+        camera={{ position: [0, 0, 7], fov: 50 }}
+        dpr={1}
+        gl={{
+          antialias: false,
+          alpha: true,
+          powerPreference: 'high-performance',
+          precision: 'mediump',
+        }}
+        style={{ background: '#0A0A0F' }}
+      >
+        <Optimized3DParticles count={650} />
+      </Canvas>
+    </div>
   );
 }

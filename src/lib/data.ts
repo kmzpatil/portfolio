@@ -162,15 +162,6 @@ export const experience: Experience[] = [
       "Orchestrated Secretariat operations for the World Bank Committee at Global Model United Nations (GMUN 2026); architected the official conference portal serving 300+ international delegates.",
     ],
   },
-  {
-    company: "Kharagpur Data Analytics Group (KDAG)",
-    role: "Associate Member",
-    period: "Mar 2024 — Sep 2025",
-    bullets: [
-      "Clinched 1st Runner-Up in the intra-society ML hackathon by engineering an end-to-end predictive cancer classification model.",
-      "Co-authored high-yield tutorials and mathematical breakdowns for the widely circulated KDAG ML Sheets.",
-    ],
-  },
 ];
 
 export const achievements: Achievement[] = [
