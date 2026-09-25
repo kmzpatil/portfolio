@@ -3,6 +3,8 @@
 // In backend environments, queries route through /api/chat using server-side secrets.
 // On static hosts (e.g. GitHub Pages), queries route through the high-performance local K-OS engine.
 
+import { sanitizeInput, evaluateGuardrails } from './guardrails';
+
 const RESUME_CONTEXT = `KARTIK MAHENDRA PATIL
 High-Performance Systems Engineer | Quantitative Developer | Full-Stack Architect
 Indian Institute of Technology (IIT) Kharagpur | Roll: 24EC10046
@@ -134,8 +136,14 @@ Try commands: 'projects', 'stats', 'ctf', 'history', 'sudo root', or ask about K
 }
 
 export async function askKOSDaemon(userMessage: string): Promise<string> {
-  const trimmed = userMessage.trim();
-  if (!trimmed) return 'Enter a command or inquiry.';
+  const sanitized = sanitizeInput(userMessage);
+  if (!sanitized) return 'Enter a command or inquiry.';
+
+  // 1. Evaluate security guardrails
+  const guard = evaluateGuardrails(sanitized);
+  if (guard.blocked && guard.response) {
+    return guard.response;
+  }
 
   // If running in an environment with /api/chat active (server or local dev with secrets)
   if (typeof window !== 'undefined' && !window.location.hostname.endsWith('github.io')) {
@@ -144,7 +152,7 @@ export async function askKOSDaemon(userMessage: string): Promise<string> {
         signal: AbortSignal.timeout(4000),
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: [{ role: 'user', content: trimmed }] }),
+        body: JSON.stringify({ messages: [{ role: 'user', content: sanitized }] }),
       });
       if (res.ok) {
         const data = await res.json();
@@ -157,5 +165,5 @@ export async function askKOSDaemon(userMessage: string): Promise<string> {
   }
 
   // Zero-secret local response engine (pure static, 100% reliable)
-  return generateKOSResponse(trimmed);
+  return generateKOSResponse(sanitized);
 }
