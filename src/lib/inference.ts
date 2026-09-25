@@ -86,6 +86,42 @@ He specializes in low-latency C++20/23 matching engines (-40% p99 latency), Kalm
 4. Incoming SDE at Walmart Global Tech. He doesn't just write code; he minimizes instruction cache misses and memory stalls.`;
   }
 
+  // Benchmark 1: C++ Order Book Latency
+  if (q.includes('sub-microsecond') || (q.includes('matching engine') && q.includes('latency')) || (q.includes('order') && q.includes('achieve'))) {
+    return `[C++23 MATCHING ENGINE BENCHMARK]:
+• Memory & Cache Locality: Enforces contiguous memory layouts and arena allocations on the hot path, completely eliminating dynamic malloc/free calls inside the matching loop.
+• Price-Time Priority: Implemented via std::map with custom price comparator (std::greater for bids, std::less for asks) paired with cache-friendly contiguous queues for resting depth.
+• Concurrency Model: Mutex-protected single-consumer queue with condition variables for low-overhead thread synchronization.
+• Benchmark Results: Google Benchmark profiles demonstrate a -40% p99 latency reduction under synthetic burst loads (sub-microsecond median dispatch).`;
+  }
+
+  // Benchmark 2: Kalman Filters in Quant Framework
+  if (q.includes('kalman') || (q.includes('nifty') && (q.includes('quant') || q.includes('framework')))) {
+    return `[KALMAN STAT-ARB FRAMEWORK]:
+• State-Space Estimation: Replaced static rolling OLS regression with recursive Kalman Filtering to dynamically track time-varying hedge ratios (beta) between cointegrated Nifty 50 equity pairs.
+• Zero Lookahead Bias: The state vector updates recursively at every 1-minute tick (P_t|t-1 and K_t gain matrix), preventing retrospective parameter overfitting.
+• Alpha Generation: Rolling dynamic Z-score spreads fed into walk-forward ML ensembles (XGBoost, Ridge) achieved 73.8% out-of-sample directional prediction accuracy on intraday ticks.
+• Risk Engine: Automated SEBI-compliant margin limits and asynchronous order dispatch via Zerodha Kite API.`;
+  }
+
+  // Benchmark 3: Graph Algorithm in DeFi Arbitrage Bot
+  if (q.includes('graph') || q.includes('bellman') || (q.includes('defi') && (q.includes('algorithm') || q.includes('bot')))) {
+    return `[DEFI ARBITRAGE TOPOLOGY & ALGORITHMS]:
+• Directed Graph Modeling: Constructed a 100+ node multi-asset liquidity graph where vertices represent ERC-20 tokens and directed edges represent Uniswap V3 liquidity pool exchange rates.
+• Negative Cycle Transformation: Taking the negative logarithm of exchange rates (-ln(R)) maps multiplicative return maximization into a classic additive shortest path problem.
+• Modified Bellman-Ford: Executed cycle detection across V3 fee tiers (0.05%, 0.3%, 1%) with early termination upon negative cycle discovery.
+• Microstructure Precision: Formulated net PnL equations factoring in pool tick liquidity, pool fee tiers, price impact, and dynamic gas oracles for 95%+ profit execution accuracy.`;
+  }
+
+  // Benchmark 4: Walmart Global Tech & IIT Kharagpur Experience
+  if ((q.includes('walmart') && (q.includes('kharagpur') || q.includes('experience'))) || (q.includes('experience') && q.includes('walmart'))) {
+    return `[EXPERIENCE & ACADEMIC DOSSIER]:
+• Walmart Global Tech (May 2027 – Jul 2027): Incoming Software Engineering Intern (SDE). Selected through highly competitive technical hiring rounds emphasizing concurrency, high-scale system design, and algorithmic problem solving.
+• Indian Institute of Technology (IIT) Kharagpur (2024 – 2028): B.Tech. (Hons.) in Electronics and Electrical Communication Engineering (ECE). Roll: 24EC10046.
+• Leadership & Impact: Governor at Communiqué (TSG, IIT KGP), leading student professional drives for 500+ candidates and directing digital platforms. Secretariat Member for World Bank Committee at GMUN 2026.
+• Competitive Honors: Codeforces 1620 (Expert), IMC Prosperity 4 Global Rank 529, JEE Main Top 0.46% (among 1.2M candidates), and Gold Medal in Inter-Hall Data Analytics.`;
+  }
+
   // Projects / Technical stack
   if (q.includes('project') || q.includes('order book') || q.includes('quant') || q.includes('c++') || q.includes('compiler') || q.includes('trie')) {
     return `[K-OS REPO INDEX]:

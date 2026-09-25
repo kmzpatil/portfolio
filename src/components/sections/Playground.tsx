@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { askKOSDaemon } from '@/lib/inference';
 
 // --- Order Book Types ---
 type Order = {
@@ -335,23 +336,11 @@ export default function Playground() {
 
     const startTime = performance.now();
     try {
-      const res = await fetch('/api/chat', { signal: AbortSignal.timeout(12000),
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: [{ role: 'user', content: promptText }]
-        })
-      });
-
-      if (!res.ok) {
-        throw new Error(`HTTP Error ${res.status}`);
-      }
-
-      const data = await res.json();
+      const reply = await askKOSDaemon(promptText);
       const elapsed = Math.round(performance.now() - startTime);
-      setLlmLatency(elapsed);
-      setLlmModelUsed(data.modelUsed || 'openai/gpt-oss-120b');
-      setLlmResponse(data.choices?.[0]?.message?.content || 'Execution completed without output.');
+      setLlmLatency(Math.max(16, elapsed));
+      setLlmModelUsed('K-OS AI Engine');
+      setLlmResponse(reply || 'Execution completed without output.');
     } catch (err: any) {
       setLlmResponse(`Error: ${err?.message || 'Failed to complete LLM inference request.'}`);
     } finally {
