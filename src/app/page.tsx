@@ -11,11 +11,13 @@ import { projects } from "@/lib/data";
 import SmoothScroll from "@/components/SmoothScroll";
 import SectionScroller from "@/components/SectionScroller";
 import CtfConsoleEasterEgg from "@/components/CtfConsoleEasterEgg";
+import GsapScrollEffects from "@/components/GsapScrollEffects";
 
 export default function Home() {
   return (
     <>
       <CtfConsoleEasterEgg />
+      <GsapScrollEffects />
       <ParticleField />
       <NavBar />
       <SectionScroller />

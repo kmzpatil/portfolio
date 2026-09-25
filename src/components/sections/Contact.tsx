@@ -239,96 +239,133 @@ export default function Contact() {
   return (
     <section id="contact" className="min-h-screen flex flex-col justify-center relative py-16 sm:py-20 pb-32">
       <div className="section-divider absolute top-0 left-0 right-0" />
-      <div className="section-container w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-8 items-center">
-          
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-          >
-            <p className="text-subheading mb-5">Contact</p>
-            <h2 className="text-heading text-[var(--text-primary)] mb-8">
-              Open to new <span className="gradient-text">opportunities</span>.
-            </h2>
-            <p className="text-[15px] text-[var(--text-secondary)] leading-relaxed mb-10 max-w-md">
-              Whether you have a question, a project idea, or just want to discuss 
-              high-performance engineering and quantitative systems, I&apos;m always open to connect.
-            </p>
-            
-            <div className="space-y-6">
-              <a href="mailto:kmzpatil@gmail.com" className="flex items-center gap-4 group">
-                <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)]/10 transition-colors">
-                  <svg className="w-5 h-5 text-[var(--text-secondary)] group-hover:text-[var(--accent)] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                </div>
-                <div>
-                  <span className="block text-sm text-[var(--text-tertiary)] mb-1 uppercase tracking-widest">Email</span>
-                  <span className="text-[15px] text-[var(--text-primary)] font-mono">kmzpatil@gmail.com</span>
-                </div>
-              </a>
-              
-              <a href="https://linkedin.com/in/kmzpatil" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group">
-                <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)]/10 transition-colors">
-                  <svg className="w-5 h-5 text-[var(--text-secondary)] group-hover:text-[var(--accent)] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" /><circle cx="4" cy="4" r="2" stroke="none" fill="currentColor" /></svg>
-                </div>
-                <div>
-                  <span className="block text-sm text-[var(--text-tertiary)] mb-1 uppercase tracking-widest">LinkedIn</span>
-                  <span className="text-[15px] text-[var(--text-primary)] font-mono">/in/kmzpatil</span>
-                </div>
-              </a>
-            </div>
-          </motion.div>
+      <div className="section-container w-full max-w-5xl mx-auto">
+        
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+          className="text-center mb-8 max-w-2xl mx-auto"
+        >
+          <p className="text-subheading mb-2">Direct Interface</p>
+          <h2 className="text-heading text-[var(--text-primary)]">
+            Command Center <span className="gradient-text">&amp; Connect</span>
+          </h2>
+          <p className="text-sm text-[var(--text-secondary)] mt-3 font-mono">
+            Execute terminal commands or consult the K-OS AI daemon directly.
+          </p>
+        </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.7, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-          >
-            <div className="glow-card rounded-xl overflow-hidden flex flex-col h-[450px]">
-              <div className="bg-[#111] px-4 py-3 border-b border-[var(--border-subtle)] flex items-center gap-2">
+        {/* Expanded Width Terminal Window */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.7, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
+          className="w-full max-w-4xl mx-auto mb-8"
+        >
+          <div className="glow-card rounded-xl overflow-hidden flex flex-col h-[490px] shadow-[0_20px_50px_rgba(0,0,0,0.6)] border border-white/[0.08]">
+            {/* Terminal Window Bar */}
+            <div className="bg-[#111] px-4 py-3 border-b border-[var(--border-subtle)] flex items-center justify-between">
+              <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-red-500/80" />
                 <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
                 <div className="w-3 h-3 rounded-full bg-green-500/80" />
-                <span className="ml-3 text-xs text-[var(--text-tertiary)] font-mono tracking-wider">guest@kartik-sys:~</span>
+                <span className="ml-3 text-xs text-[var(--text-tertiary)] font-mono tracking-wider">
+                  guest@kartik-hft-kernel:~
+                </span>
               </div>
-              
-              <div ref={scrollContainerRef} className="flex-1 overflow-y-auto p-5 font-mono text-[13px] sm:text-sm space-y-4 bg-[#0a0a0a] scroll-smooth">
-                {messages.map((msg) => (
-                  <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                    <div className={`max-w-[85%] rounded px-3 py-2 ${
-                      msg.sender === 'user' 
-                        ? 'bg-[var(--accent)]/10 text-[var(--text-primary)] border border-[var(--accent)]/20' 
-                        : 'text-[var(--text-secondary)] whitespace-pre-wrap'
-                    }`}>
-                      {msg.sender === 'system' && !msg.isTyping && <span className="text-[var(--accent)] mr-2">{'>'}</span>}
-                      {msg.isTyping ? (
-                        <span className="inline-block animate-pulse">_</span>
-                      ) : (
-                        msg.text
-                      )}
-                    </div>
-                  </div>
-                ))}
+              <div className="flex items-center gap-3 text-[11px] font-mono text-[var(--text-tertiary)]">
+                <span className="inline-flex items-center gap-1.5 text-emerald-400">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  ONLINE
+                </span>
+                <span className="hidden sm:inline">RTT: 14ms</span>
               </div>
-
-              <form onSubmit={handleSubmit} className="p-3 border-t border-[var(--border-subtle)] bg-[#111] flex items-center">
-                <span className="text-[var(--accent)] font-mono mr-3 pl-2">{'$'}</span>
-                <input
-                  type="text"
-                  aria-label="Terminal command or question for AI agent"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  disabled={isProcessing}
-                  placeholder="Ask about my systems, quant models, or stack..."
-                  className="flex-1 bg-transparent border-none outline-none text-[var(--text-primary)] font-mono text-sm placeholder-[var(--text-tertiary)] focus-visible:ring-1 focus-visible:ring-[var(--accent)] rounded px-2 py-1"
-                />
-              </form>
             </div>
-          </motion.div>
-          
-        </div>
+            
+            {/* Terminal Scroll Stream */}
+            <div ref={scrollContainerRef} className="flex-1 overflow-y-auto p-5 font-mono text-[13px] sm:text-sm space-y-4 bg-[#0a0a0a] scroll-smooth">
+              {messages.map((msg) => (
+                <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div className={`max-w-[88%] rounded px-3.5 py-2 ${
+                    msg.sender === 'user' 
+                      ? 'bg-[var(--accent)]/15 text-[var(--text-primary)] border border-[var(--accent)]/30' 
+                      : 'text-[var(--text-secondary)] whitespace-pre-wrap leading-relaxed'
+                  }`}>
+                    {msg.sender === 'system' && !msg.isTyping && <span className="text-[var(--accent)] mr-2">{'>'}</span>}
+                    {msg.isTyping ? (
+                      <span className="inline-block animate-pulse">_</span>
+                    ) : (
+                      msg.text
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Terminal Input Form */}
+            <form onSubmit={handleSubmit} className="p-3 border-t border-[var(--border-subtle)] bg-[#111] flex items-center">
+              <span className="text-[var(--accent)] font-mono mr-3 pl-2 font-bold">{'$'}</span>
+              <input
+                type="text"
+                aria-label="Terminal command or question for AI agent"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                disabled={isProcessing}
+                placeholder="Ask about my systems, quant models, or stack..."
+                className="flex-1 bg-transparent border-none outline-none text-[var(--text-primary)] font-mono text-sm placeholder-[var(--text-tertiary)] focus-visible:ring-1 focus-visible:ring-[var(--accent)] rounded px-2 py-1"
+              />
+            </form>
+          </div>
+        </motion.div>
+
+        {/* Quick Connect Bar */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs sm:text-sm font-mono text-[var(--text-secondary)]"
+        >
+          <a
+            href="mailto:kmzpatil@gmail.com"
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/[0.02] border border-white/[0.06] hover:border-[var(--accent)]/50 hover:bg-[var(--accent)]/10 hover:text-white transition-all duration-200"
+          >
+            <svg className="w-4 h-4 text-[var(--accent)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+            kmzpatil@gmail.com
+          </a>
+          <a
+            href="https://linkedin.com/in/kmzpatil"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/[0.02] border border-white/[0.06] hover:border-[var(--accent)]/50 hover:bg-[var(--accent)]/10 hover:text-white transition-all duration-200"
+          >
+            <svg className="w-4 h-4 text-[var(--accent)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" /><circle cx="4" cy="4" r="2" stroke="none" fill="currentColor" /></svg>
+            linkedin.com/in/kmzpatil
+          </a>
+          <a
+            href="https://github.com/kmzpatil"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/[0.02] border border-white/[0.06] hover:border-[var(--accent)]/50 hover:bg-[var(--accent)]/10 hover:text-white transition-all duration-200"
+          >
+            <span className="text-[var(--accent)]">#</span>
+            github.com/kmzpatil
+          </a>
+          <a
+            href="https://codeforces.com/profile/kresol"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/[0.02] border border-white/[0.06] hover:border-[var(--accent)]/50 hover:bg-[var(--accent)]/10 hover:text-white transition-all duration-200"
+          >
+            <span className="text-[var(--accent)]">CF:</span>
+            kresol (1620)
+          </a>
+        </motion.div>
+
       </div>
     </section>
   );

@@ -22,18 +22,38 @@ function Particles({ count = 2000 }) {
   }, [count]);
 
   const elapsedRef = useRef(0);
+  const scrollVelocity = useRef(0);
+  const lastScrollY = useRef(0);
+
+  // Track real scroll velocity
+  if (typeof window !== 'undefined') {
+    window.onscroll = () => {
+      const currentY = window.scrollY;
+      const diff = currentY - lastScrollY.current;
+      lastScrollY.current = currentY;
+      scrollVelocity.current = Math.min(Math.max(diff * 0.04, -2.5), 2.5);
+    };
+  }
 
   useFrame((state, delta) => {
     elapsedRef.current += delta;
     const t = elapsedRef.current;
+    
+    // Smooth decay of scroll velocity
+    scrollVelocity.current *= 0.92;
+
     if (points.current) {
-      points.current.rotation.y = t * 0.015;
-      points.current.rotation.x = t * 0.008;
+      points.current.rotation.y = t * 0.015 + scrollVelocity.current * 0.05;
+      points.current.rotation.x = t * 0.008 + scrollVelocity.current * 0.02;
 
       const targetX = (mouse.x * viewport.width) / 20;
       const targetY = (mouse.y * viewport.height) / 20;
       points.current.position.x += (targetX - points.current.position.x) * 0.015;
       points.current.position.y += (targetY - points.current.position.y) * 0.015;
+      
+      // Dynamic warp depth on scroll
+      const targetZ = scrollVelocity.current * 1.8;
+      points.current.position.z += (targetZ - points.current.position.z) * 0.08;
     }
   });
 

@@ -44,7 +44,7 @@ export default function NavBar() {
 
         {/* Desktop nav */}
         <ul className="hidden md:flex items-center gap-8">
-          {sections.slice(1).map((s) => (
+          {sections.slice(1, -1).map((s) => (
             <li key={s.id}>
               <a
                 href={`#${s.id}`}
@@ -56,8 +56,8 @@ export default function NavBar() {
           ))}
           <li>
             <a
-              href="mailto:kmzpatil@gmail.com"
-              className="text-[13px] px-4 py-2 rounded-md bg-[var(--accent)] text-white hover:bg-blue-600 transition-colors duration-200"
+              href="#contact"
+              className="text-[13px] px-4 py-2 rounded-md bg-[var(--accent)] text-white hover:bg-blue-600 transition-colors duration-200 font-medium"
             >
               Contact
             </a>
