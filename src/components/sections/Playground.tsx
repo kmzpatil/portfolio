@@ -75,22 +75,39 @@ export default function Playground() {
     if (!isBotActive) return;
     const interval = setInterval(() => {
       setBids(prev => {
-        if (prev.length === 0) return prev;
-        const newBids = [...prev];
+        let newBids = [...prev];
+        if (newBids.length < 10) {
+          let p = newBids.length > 0 ? Math.min(...newBids.map(b => b.price)) - 0.01 : (lastPrice - 0.01);
+          while (newBids.length < 15) {
+            newBids.push({ id: ++orderId.current, price: Number(p.toFixed(2)), size: Math.floor(Math.random() * 350) + 30 });
+            p -= 0.01;
+          }
+        }
         const idx = Math.floor(Math.random() * newBids.length);
-        newBids[idx] = { ...newBids[idx], size: Math.max(1, newBids[idx].size + (Math.random() > 0.5 ? 50 : -50)) };
-        return newBids;
+        if (newBids[idx]) {
+          newBids[idx] = { ...newBids[idx], size: Math.max(15, newBids[idx].size + (Math.random() > 0.5 ? 40 : -30)) };
+        }
+        return newBids.sort((a, b) => b.price - a.price);
       });
+
       setAsks(prev => {
-        if (prev.length === 0) return prev;
-        const newAsks = [...prev];
+        let newAsks = [...prev];
+        if (newAsks.length < 10) {
+          let p = newAsks.length > 0 ? Math.max(...newAsks.map(a => a.price)) + 0.01 : (lastPrice + 0.01);
+          while (newAsks.length < 15) {
+            newAsks.push({ id: ++orderId.current, price: Number(p.toFixed(2)), size: Math.floor(Math.random() * 350) + 30 });
+            p += 0.01;
+          }
+        }
         const idx = Math.floor(Math.random() * newAsks.length);
-        newAsks[idx] = { ...newAsks[idx], size: Math.max(1, newAsks[idx].size + (Math.random() > 0.5 ? 50 : -50)) };
-        return newAsks;
+        if (newAsks[idx]) {
+          newAsks[idx] = { ...newAsks[idx], size: Math.max(15, newAsks[idx].size + (Math.random() > 0.5 ? 40 : -30)) };
+        }
+        return newAsks.sort((a, b) => a.price - b.price);
       });
     }, 500);
     return () => clearInterval(interval);
-  }, [isBotActive]);
+  }, [isBotActive, lastPrice]);
 
   const executeOrder = (type: 'buy' | 'sell', quantity: number, priceStr?: string) => {
     let remaining = quantity;
@@ -100,7 +117,7 @@ export default function Playground() {
     
     if (type === 'buy') {
       if (isLimit && limitPrice < (asks[0]?.price || 0)) {
-        setBids(prev => [...prev, { id: ++orderId.current, price: limitPrice, size: quantity }]);
+        setBids(prev => [...prev, { id: ++orderId.current, price: limitPrice, size: quantity }].sort((a, b) => b.price - a.price));
         return;
       }
       
@@ -119,7 +136,7 @@ export default function Playground() {
           totalCost += matched * top.price;
           matchedTotal += matched;
           
-          if (top.size === 0) newAsks.shift();
+          if (top.size <= 0) newAsks.shift();
         }
         
         if (matchedTotal > 0) {
@@ -135,16 +152,27 @@ export default function Playground() {
           setPosition(pos => pos + matchedTotal);
           setEntryCost(cost => cost + totalCost);
         }
+
+        // Keep asks replenished so ladder never empties
+        let topAsk = newAsks.length > 0 ? Math.max(...newAsks.map(a => a.price)) : (currentPrice + 0.01);
+        while (newAsks.length < 15) {
+          topAsk = Number((topAsk + 0.01).toFixed(2));
+          newAsks.push({
+            id: ++orderId.current,
+            price: topAsk,
+            size: Math.floor(Math.random() * 450) + 40
+          });
+        }
         
-        return newAsks;
+        return newAsks.sort((a, b) => a.price - b.price);
       });
       
       if (remaining > 0 && isLimit) {
-        setBids(prev => [...prev, { id: ++orderId.current, price: limitPrice, size: remaining }]);
+        setBids(prev => [...prev, { id: ++orderId.current, price: limitPrice, size: remaining }].sort((a, b) => b.price - a.price));
       }
     } else {
       if (isLimit && limitPrice > (bids[0]?.price || 0)) {
-        setAsks(prev => [...prev, { id: ++orderId.current, price: limitPrice, size: quantity }]);
+        setAsks(prev => [...prev, { id: ++orderId.current, price: limitPrice, size: quantity }].sort((a, b) => a.price - b.price));
         return;
       }
       
@@ -163,7 +191,7 @@ export default function Playground() {
           totalRevenue += matched * top.price;
           matchedTotal += matched;
           
-          if (top.size === 0) newBids.shift();
+          if (top.size <= 0) newBids.shift();
         }
         
         if (matchedTotal > 0) {
@@ -190,12 +218,23 @@ export default function Playground() {
             return pos - matchedTotal;
           });
         }
+
+        // Keep bids replenished so ladder never empties
+        let topBid = newBids.length > 0 ? Math.min(...newBids.map(b => b.price)) : (currentPrice - 0.01);
+        while (newBids.length < 15) {
+          topBid = Number((topBid - 0.01).toFixed(2));
+          newBids.push({
+            id: ++orderId.current,
+            price: topBid,
+            size: Math.floor(Math.random() * 450) + 40
+          });
+        }
         
-        return newBids;
+        return newBids.sort((a, b) => b.price - a.price);
       });
       
       if (remaining > 0 && isLimit) {
-        setAsks(prev => [...prev, { id: ++orderId.current, price: limitPrice, size: remaining }]);
+        setAsks(prev => [...prev, { id: ++orderId.current, price: limitPrice, size: remaining }].sort((a, b) => a.price - b.price));
       }
     }
   };
